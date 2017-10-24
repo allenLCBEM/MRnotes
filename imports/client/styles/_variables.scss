@@ -1,0 +1,26 @@
+//colors
+$gray: #d3d3d3;
+$dk-gray: #696969;
+
+//spacing
+$space: 1.4rem;
+
+//fonts
+$base-font-size: 1.6rem;
+
+//form inputs
+$input-border: 1px solid $gray;
+$input-spacing: 1rem;
+
+//boxed-view
+$boxed-view-overlay-bg: $gray;
+$boxed-view-bg: #fff;
+
+//buttons
+$button-bg: #fff;
+$button-clr: $dk-gray;
+$button-pill-color: #2F4F4F;
+
+//items
+$item-bg: $gray;
+$item-border: darken($item-bg, 10%)

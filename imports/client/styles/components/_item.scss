@@ -1,0 +1,12 @@
+.item {
+  background: $item-bg;
+  border: 1px solid $item-border;
+  margin-bottom: $space;
+  padding: $space;
+}
+
+.item-message {
+  color:$dk-gray;
+  padding: 3rem 1rem 1rem 1rem;
+  text-align: center;
+}
