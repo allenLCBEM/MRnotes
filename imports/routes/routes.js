@@ -2,6 +2,7 @@ import {Meteor} from 'meteor/meteor';
 import React from 'react';
 import {Router, Route, Switch} from 'react-router-dom';
 import { createBrowserHistory } from 'history';
+import {Session} from 'meteor/session';
 
 import Login from '../ui/Login';
 import Signup from '../ui/Signup';
@@ -22,6 +23,13 @@ const onEnterPrivatePage = () => {
       browserHistory.replace('/');
     }
 };
+// const onEnterNotePage = (nextState) => {
+//     if(!Meteor.userId()){
+//       browserHistory.replace('/');
+//     } else {
+//       Session.set('selectedNoteId', nextState.params.id);
+//     }
+// };
 
 export const onAuthChange = (isAuthd) => {
   const pathname = browserHistory.location.pathname;

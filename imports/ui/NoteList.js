@@ -1,8 +1,8 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
 import {Meteor} from 'meteor/meteor';
 import PropTypes from 'prop-types';
 import {createContainer} from 'meteor/react-meteor-data';
+import {Session} from 'meteor/session';
 
 import NoteListHeader from './NoteListHeader';
 import NoteListItem from './NoteListItem';
@@ -10,7 +10,15 @@ import NoteListEmptyItem from './NoteListEmptyItem';
 
 import {Notes} from '../api/notes';
 
+
+
 export const NoteList = (props) => {
+
+  function componentWillMount(){
+    Session.set('selectedNoteId', location.pathname.split('/').filter(function(el){ return !!el; }).pop());
+    //Session.set('selectedNoteId', this.match.params.id)
+  }
+componentWillMount();
   return (
     <div>
       <NoteListHeader />
@@ -31,9 +39,15 @@ NoteList.PropTypes = {
 }
 
 export default createContainer(() => {
+  const selectedNoteId = Session.get('selectedNoteId');
   Meteor.subscribe('notes');
 
   return {
-    notes: Notes.find().fetch()
+    notes: Notes.find().fetch().map((note) => {
+        return {
+          ...note,
+          selected: note._id === selectedNoteId
+        }
+    })
   };
 }, NoteList);
