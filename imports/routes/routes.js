@@ -41,6 +41,7 @@ export const routes = (
         <Route exact path="/" exact component={Login} onEnter={onEnterPublicPage} />
         <Route path="/signup" component={Signup} onEnter={onEnterPublicPage} />
         <Route path="/dashboard" component={Dashboard} onEnter={onEnterPrivatePage} />
+        <Route path="/dashboard/:id" component={Dashboard} onEnter={onEnterPrivatePage} />
         <Route path="*" component={NotFound}/>
       </Switch>
     </Router>
