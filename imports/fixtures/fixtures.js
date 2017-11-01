@@ -1,16 +1,15 @@
-export const notes =[
+export const notes = [
   {
-    _id:'noteId1',
-    title:'test title 1',
-    body: 'test body 1',
-    udpatedAt: 1509113358947,
+    _id: 'noteId1',
+    title: 'Test title',
+    body: '',
+    updatedAt: 1486137505429,
     userId: 'userId1'
-  },
-  {
-    _id:'noteId2',
-    title:'',
-    body: 'test body 2',
-    udpatedAt: 1509113358947,
+  }, {
+    _id: 'noteId2',
+    title: '',
+    body: 'Something is here.',
+    updatedAt: 1486137505429,
     userId: 'userId2'
   }
 ];

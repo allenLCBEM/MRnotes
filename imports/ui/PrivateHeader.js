@@ -1,31 +1,33 @@
 import React from 'react';
-import {Accounts} from 'meteor/accounts-base';
-import PropTypes from 'prop-types';
-import {createContainer} from 'meteor/react-meteor-data';
-
+import { Accounts } from 'meteor/accounts-base';
+import { createContainer } from 'meteor/react-meteor-data';
+import { Session } from 'meteor/session';
 
 export const PrivateHeader = (props) => {
-  return (
-        <div className="header">
-          <div className="header-content">
-            <h1>{props.title}</h1>
-            <button
-              className="button button-secondary"
-              onClick={() => props.handleLogout()} 
-              >Logout
-            </button>
-          </div>
-        </div>
-      );
-}
+  const navImageSrc = props.isNavOpen ? '/images/x.svg' : '/images/bars.svg';
 
-PrivateHeader.PropTypes = {
-  title: PropTypes.string.isRequired,
-  handleLogout: PropTypes.func.isRequired
-}
+  return (
+    <div className="header">
+      <div className="header__content">
+        <img className="header__nav-toggle" src={navImageSrc} onClick={props.handleNavToggle}/>
+        <h1 className="header__title">{props.title}</h1>
+        <button className="button button--link-text" onClick={() => props.handleLogout()}>Logout</button>
+      </div>
+    </div>
+  );
+};
+
+PrivateHeader.propTypes = {
+  title: React.PropTypes.string.isRequired,
+  handleLogout: React.PropTypes.func.isRequired,
+  isNavOpen: React.PropTypes.bool.isRequired,
+  handleNavToggle: React.PropTypes.func.isRequired
+};
 
 export default createContainer(() => {
   return {
-    handleLogout: () => Accounts.logout()
+    handleLogout: () => Accounts.logout(),
+    handleNavToggle: () => Session.set('isNavOpen', !Session.get('isNavOpen')),
+    isNavOpen: Session.get('isNavOpen')
   };
 }, PrivateHeader);

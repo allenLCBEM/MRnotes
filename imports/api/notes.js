@@ -1,33 +1,32 @@
-import {Mongo} from 'meteor/mongo';
-import {Meteor} from 'meteor/meteor';
-import SimpleSchema from 'simpl-schema';
+import { Mongo } from 'meteor/mongo';
+import { Meteor } from 'meteor/meteor';
 import moment from 'moment';
+import SimpleSchema from 'simpl-schema';
 
 export const Notes = new Mongo.Collection('notes');
 
-if(Meteor.isServer){
-  Meteor.publish('notes', function(){
-    return Notes.find({userId:this.userId});
+if (Meteor.isServer) {
+  Meteor.publish('notes', function () {
+    return Notes.find({ userId: this.userId });
   });
 }
 
 Meteor.methods({
-  'notes.insert'(){
-    if(!this.userId){
-      throw new Meteor.Error('not authorized');
+  'notes.insert'() {
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized');
     }
 
     return Notes.insert({
-      title:'',
-      body:'',
-      userId:this.userId,
+      title: '',
+      body: '',
+      userId: this.userId,
       updatedAt: moment().valueOf()
     });
   },
-
-  'notes.remove'(_id){
-    if(!this.userId){
-      throw new Meteor.Error('not authorized');
+  'notes.remove'(_id) {
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized');
     }
 
     new SimpleSchema({
@@ -35,15 +34,13 @@ Meteor.methods({
         type: String,
         min: 1
       }
-    }).validate({_id});
+    }).validate({ _id });
 
-    Notes.remove({_id, userId: this.userId});
-
+    Notes.remove({ _id, userId: this.userId });
   },
-
-  'notes.update'(_id, updates){
-    if(!this.userId){
-      throw new Meteor.Error('not authorized');
+  'notes.update'(_id, updates) {
+    if (!this.userId) {
+      throw new Meteor.Error('not-authorized');
     }
 
     new SimpleSchema({
@@ -66,13 +63,12 @@ Meteor.methods({
 
     Notes.update({
       _id,
-      userId:this.userId
-    },{
+      userId: this.userId
+    }, {
       $set: {
         updatedAt: moment().valueOf(),
         ...updates
       }
     });
-
   }
 });

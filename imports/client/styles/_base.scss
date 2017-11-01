@@ -1,6 +1,7 @@
 * {
-  padding: 0;
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
 }
 
 html {
@@ -8,18 +9,19 @@ html {
 }
 
 body {
-  background-color: $gray;
-  font-family: Verdana, Helvetica, Arial, sans-serif;
+  background-color: $body-background-color;
+  color: $body-default-color;
+  font-family: $body-default-font-family;
   font-size: $base-font-size;
 }
 
 h1 {
-  font-weight: 800;
+  font-weight: 300;
   margin-bottom: $space;
 }
 
 h2 {
-  font-size: 2.2rem;
+  font-size: $large-font-size;
   margin-bottom: $space;
 }
 
@@ -28,26 +30,14 @@ p {
 }
 
 a {
-  color: $dk-gray;
-  text-decoration: none;
+  color: $body-default-color;
 }
 
-input[type=text], input[type=email], input[type=password] {
-  border: $input-border;
+input[type=text], input[type=email], input[type=password], textarea {
+  border: 1px solid $input-border;
+  color: $body-default-color;
   font-size: $base-font-size;
+  font-family: $body-default-font-family;
   margin-bottom: $space;
   padding: $input-spacing;
-}
-
-.header {
-  background: $button-bg;
-  color: $dk-gray;
-  padding: 3rem 3rem 1rem 3rem;
-}
-
-.header-content {
-  display: flex;
-  justify-content: space-between;
-  max-width: 50rem;
-  margin: 0 auto;
 }

@@ -1,63 +1,65 @@
-import {Meteor} from 'meteor/meteor';
+import { Meteor } from 'meteor/meteor';
 import React from 'react';
-import { MemoryRouter } from 'react-router-dom';
 import expect from 'expect';
-import {shallow} from 'enzyme';
-import {mount} from 'enzyme';
+import { mount } from 'enzyme';
 
-import {Signup} from './Signup';
+import { Signup } from './Signup';
 
-if(Meteor.isClient) {
-  describe('Signup', function(){
+if (Meteor.isClient) {
+  describe('Signup', function () {
 
-    it('should show error msgs', function(){
-      const error = 'this is an error msg';
-      const wrapper = shallow(<Signup createUser={() => {}} />);
+    it('should show error messages', function () {
+      const error = 'This is not working';
+      const wrapper = mount(<Signup createUser={() => {}}/>);
 
-      wrapper.setState({error});
+      wrapper.setState({ error });
       expect(wrapper.find('p').text()).toBe(error);
 
-      wrapper.setState({error: ''});
+      wrapper.setState({ error: '' });
       expect(wrapper.find('p').length).toBe(0);
     });
 
-    it('should call createUser with form data', function(){
-      const email = 'test@test.com';
-      const password = 'password';
+    it('should call createUser with the form data', function () {
+      const email = 'andrew@test.com';
+      const password = 'password123';
       const spy = expect.createSpy();
-      const wrapper = mount(
-        <MemoryRouter initialEntries={['/']} initialIndex={0}>
-          <Signup createUser={spy} />
-        </MemoryRouter>
-        );
+      const wrapper = mount(<Signup createUser={spy}/>);
 
-      wrapper.find(Signup).node.refs['email'].value = email;
-      wrapper.find(Signup).node.refs['password'].value = password;
+      wrapper.ref('email').node.value = email;
+      wrapper.ref('password').node.value = password;
       wrapper.find('form').simulate('submit');
 
-      expect(spy.calls[0].arguments[0]).toEqual({email, password});
-
+      expect(spy.calls[0].arguments[0]).toEqual({ email, password });
     });
 
-    // it('should set createUser callbk errs', function(){
-    //   const spy = expect.createSpy();
-    //   const wrapper = mount(
-    //     <MemoryRouter initialEntries={['/']} initialIndex={0}>
-    //       <Signup createUser={spy} />
-    //     </MemoryRouter>
-    //     );
-    //
-    //   wrapper.find('form').simulate('submit');
-    //
-    //   const signup = wrapper.find(Signup).node;
-    //
-    //   spy.calls[0].arguments[1]({});
-    //   expect(signup.state['error']).toNotBe('');
-    //
-    //   spy.calls[0].arguments[1]();
-    //   expect(signup.state['error']).toBe('');
-    // });
+    it('should set error if short password', function () {
+      const email = 'andrew@test.com';
+      const password = '123                       ';
+      const spy = expect.createSpy();
+      const wrapper = mount(<Signup createUser={spy}/>);
 
+      wrapper.ref('email').node.value = email;
+      wrapper.ref('password').node.value = password;
+      wrapper.find('form').simulate('submit');
+
+      expect(wrapper.state('error').length).toBeGreaterThan(0);
+    });
+
+    it('should set createUser callback errors', function () {
+      const password = 'password123!';
+      const reason = 'This is why it failed';
+      const spy = expect.createSpy();
+      const wrapper = mount(<Signup createUser={spy}/>);
+
+      wrapper.ref('password').node.value = password;
+      wrapper.find('form').simulate('submit');
+
+      spy.calls[0].arguments[1]({ reason });
+      expect(wrapper.state('error')).toBe(reason);
+
+      spy.calls[0].arguments[1]();
+      expect(wrapper.state('error').length).toBe(0);
+    });
 
   });
 }
